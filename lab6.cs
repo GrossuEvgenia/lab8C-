@@ -21,6 +21,26 @@ namespace lab6App
 			this.wheit=wheit;
 			this.price=price;
 		}
+		public  string Name
+		{
+			get{return name;}
+			set{name=value;}
+		}
+		public  int Age
+		{
+			get{return age;}
+			set{age=value;}
+		}
+		public  int Wheit
+		{
+			get{return wheit;}
+			set{wheit=value;}
+		}
+		public  double Price
+		{
+			get{return price;}
+			set{price=value;}
+		}
 		public void set_name(string name)
 		{
 			this.name=name;
@@ -92,6 +112,10 @@ namespace lab6App
 			income=0;
 			damages=0;
 			feed_price=food_price;	
+			for(int i=0; i<col; i++)
+			{
+				pet[i]=new Pets ("no_name", 0,0,0);
+			}
 		}
 		public Zooshop(int col, double income, double damages, double feed_price, Pets[] pet)
 		{
@@ -110,6 +134,27 @@ namespace lab6App
 			this.feed_price=feed_price;	
 			this.pet[0]=pet;
 		}
+		public int Col
+		{
+			get{return col;}
+			set{col=value;}
+		}
+		public double Income
+		{
+			get{return income;}
+			set{income=value;}
+		}
+		public double Damages
+		{
+			get{return damages;}
+			set{damages=value;}
+		}
+		public double Feed_price
+		{
+			get{return feed_price;}
+			set{feed_price=value;}
+		}
+		
 		public void set_col(int col)
 		{
 			this.col=col;
@@ -147,20 +192,24 @@ namespace lab6App
 		{
 			Console.WriteLine("Numbers of pets - {0} ,store profit is {1}, damages is {2}, price of feed is {3}\n", col, income, damages, feed_price);
 		}
+		public Pets get_pet(int i)
+		{
+			return pet[i];
+		}
 		
 		public void output_shopANDpets()
 		{
 			Console.WriteLine("Numbers of pets - {0} ,store profit is {1}, damages is {2}, price of feed is {3}\n", col, income, damages,feed_price );
 			for(int i=0; i<col; i++)
 			{
-			Console.WriteLine("Pet's name - {0}, age - {1}, wheit - {2}, price - {3}\n", pet[i].get_name(), pet[i].get_age(), pet[i].get_wheit(), pet[i].get_price());	
+			Console.WriteLine("Pet's name - {0}, age - {1}, wheit - {2}, price - {3}\n", pet[i].Name, pet[i].Age, pet[i].Wheit, pet[i].Price);	
 			}
 		}
 		public void feeding()
 		{
 			for(int i=0; i<col; i++)
 			{
-			pet[i].set_wheit(pet[i].get_wheit()+1);
+			pet[i].set_wheit(pet[i].Wheit+1);
 			damages+=feed_price;
 			}
 		}
@@ -169,9 +218,45 @@ namespace lab6App
 			for(int i=0; i<=col; i++)
 			{
 				income+=pet[i].get_price();
-				damages-=feed_price;
 				col-=1;
 			}
+		}
+		public void tax(out double taxa)
+		{
+			taxa = income*0.2;
+		}
+		public void profit(ref double profit)
+		{
+			profit=income-damages;
+		}
+		public static Zooshop operator+(Zooshop s1, int a)
+		{
+			Zooshop s2;
+			s2=new Zooshop();
+			s2.Col=s1.Col+a;
+			return s2;
+		}
+		public static Zooshop operator++(Zooshop s)
+		{
+			++s.Feed_price;
+			return s;
+		}
+		public void found_pets(String names)
+		{
+			int res=0;
+		 for(int i=0; i<col; i++)
+		 {
+			 res=String.Compare(names,pet[i].Name);
+			 if(res==0)
+			 {
+				 Console.WriteLine("Pet found\n");
+				break; 
+			 }
+		 }
+		 if(res!=0)
+		 {
+			 Console.WriteLine("Pet doesn't found\n");
+		 }
 		}
 		
     }
@@ -190,9 +275,23 @@ namespace lab6App
 		 Console.WriteLine("After feeding\n");
 		 shop.feeding();
 		 shop.output_shopANDpets();
+		 Zooshop shoper = new Zooshop (1,0,0,10,pet);
+		 shoper=shoper+5;
+		 Console.WriteLine("Total numbers of pets in  shop {0}\n", shoper.Col);
 		 Console.WriteLine("After sale\n");
 		 shop.sale();
 		 shop.output_shopANDpets();
+		 double taxa;
+		 shop.tax(out taxa);
+		 Console.WriteLine("Tax is {0}\n", taxa);
+		 double profit=0;
+		 shop.profit(ref profit);
+		 Console.WriteLine("Profit is {0}\n", profit);
+		 Console.WriteLine("Prefix and Postfix\n");
+		 shoper=shop++;
+		 shoper.output_shop();
+		 shoper=++shop;
+		 shoper.output_shop();
 		 
 		Console.WriteLine("\nWorking with array's object\n");
 		Console.WriteLine("Enter numbers of pets\n");
@@ -209,6 +308,8 @@ namespace lab6App
 		 Console.WriteLine("After feeding\n");
 		 shop1.feeding();
 		 shop1.output_shopANDpets();
+		 string names=Console.ReadLine();
+		 shop1.found_pets(names);
 		 Console.WriteLine("After sale\n");
 		 shop1.sale();
 		 shop1.output_shopANDpets();
