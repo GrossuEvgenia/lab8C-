@@ -308,6 +308,7 @@ namespace lab6App
 		 Console.WriteLine("After feeding\n");
 		 shop1.feeding();
 		 shop1.output_shopANDpets();
+		 Console.WriteLine("Input name \n");
 		 string names=Console.ReadLine();
 		 shop1.found_pets(names);
 		 Console.WriteLine("After sale\n");
