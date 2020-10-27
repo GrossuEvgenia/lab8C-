@@ -103,35 +103,32 @@ namespace lab6App
 		private int col;
 		private double income;
 		private double damages;
-		private  double feed_price;
 		private Pets [] pet = new Pets [100];
 		const int food_price=10;
+		private  static double feed_price=food_price;
 		public Zooshop()
 		{
 			col=0;
 			income=0;
-			damages=0;
-			feed_price=food_price;	
+			damages=0;	
 			for(int i=0; i<col; i++)
 			{
 				pet[i]=new Pets ("no_name", 0,0,0);
 			}
 		}
-		public Zooshop(int col, double income, double damages, double feed_price, Pets[] pet)
+		public Zooshop(int col, double income, double damages, Pets[] pet)
 		{
 			this.col=col;
 			this.income=income;
 			this.damages=damages;
-			this.feed_price=feed_price;	
 			for(int i=0; i<col; i++)
 			{this.pet[i]=pet[i];}
 		}
-		public Zooshop(int col, double income, double damages, double feed_price, Pets pet)
+		public Zooshop(int col, double income, double damages, Pets pet)
 		{
 			this.col=col;
 			this.income=income;
 			this.damages=damages;
-			this.feed_price=feed_price;	
 			this.pet[0]=pet;
 		}
 		public int Col
@@ -180,11 +177,11 @@ namespace lab6App
 		{
 			return damages;
 		}
-		public void set_price_feed(double feed_price)
+		static public void set_price_feed(double price)
 		{
-			this.feed_price=feed_price;
+		feed_price=price;
 		}
-		public double get_feed_price()
+		static public double get_feed_price()
 		{
 			return feed_price;
 		}
@@ -258,6 +255,19 @@ namespace lab6App
 			 Console.WriteLine("Pet doesn't found\n");
 		 }
 		}
+		//for 8 labaroty
+		public static void compare(Zooshop s1, Zooshop s2)
+		{
+			if(s1.get_col()>s2.get_col())
+			{
+				Console.WriteLine("More animals in first shop\n");
+			}
+			else if(s2.get_col()>s1.get_col())
+			{
+				Console.WriteLine("More animals in second shop\n");
+			}
+			else Console.WriteLine("Store is equals\n");
+		}
 		
     }
     class Program
@@ -270,12 +280,12 @@ namespace lab6App
 		 Pets pet = new Pets("name", 0,0 ,0);
 		 pet.input();
 		 pet.add_price(sum);
-		 Zooshop shop = new Zooshop(1,0,0,10, pet);
+		 Zooshop shop = new Zooshop(1,0,0,pet);
 		 shop.output_shopANDpets();
 		 Console.WriteLine("After feeding\n");
 		 shop.feeding();
 		 shop.output_shopANDpets();
-		 Zooshop shoper = new Zooshop (1,0,0,10,pet);
+		 Zooshop shoper = new Zooshop (1,0,0,pet);
 		 shoper=shoper+5;
 		 Console.WriteLine("Total numbers of pets in  shop {0}\n", shoper.Col);
 		 Console.WriteLine("After sale\n");
@@ -303,7 +313,13 @@ namespace lab6App
 		pet1[i].input();
 		sum=pet1[i].add_price(sum);
 		 }
-		Zooshop shop1 = new Zooshop(col,0,0,10, pet1);
+		Zooshop shop1 = new Zooshop(col,0,0,pet1);
+		//8 lab
+		Zooshop shop8 = new Zooshop(1,0,0,pet);
+		Zooshop.compare(shop1,shop8);
+		Zooshop.set_price_feed(15);
+		Console.WriteLine("New feed prise {0}\n", Zooshop.get_feed_price());
+		
 		 shop1.output_shopANDpets();
 		 Console.WriteLine("After feeding\n");
 		 shop1.feeding();
