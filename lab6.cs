@@ -14,6 +14,13 @@ namespace lab6App
 			wheit=0;
 			price=0;
 		}
+		public Pets(string name)
+		{
+			this.name=name;
+			age=0;
+			wheit=0;
+			price=0;
+		}
 		public Pets(string name, int age, int wheit, double price)
 		{
 			this.name=name;
@@ -105,7 +112,7 @@ namespace lab6App
 		private double damages;
 		private Pets [] pet = new Pets [100];
 		const int food_price=10;
-		private  static double feed_price=food_price;
+		private  static double feed_price=food_price; //for 8 lab
 		public Zooshop()
 		{
 			col=0;
@@ -277,10 +284,22 @@ namespace lab6App
          int col;
 		 double sum=0;
 		 Console.WriteLine("Working with object\n");
-		 Pets pet = new Pets("name", 0,0 ,0);
+		 
+		 Pets pet = new Pets("kisa", 1,1 ,0);//constructor with all value
+		 Console.WriteLine("constructor with all value from class pets\n");
+		 pet.output_pets();
+		 Pets pet9=new Pets();//constructor without value
+		 Console.WriteLine("constructor without value from class pets\n");
+		 pet9.output_pets();
+		 Pets pet91=new Pets("kota");//constructor with one value
+		 Console.WriteLine("constructor with one value from class pets\n");
+		 pet91.output_pets();
+		 
+		 
 		 pet.input();
 		 pet.add_price(sum);
-		 Zooshop shop = new Zooshop(1,0,0,pet);
+		 Zooshop shop = new Zooshop(1,0,0,pet);//constructor with one value pet
+		 Console.WriteLine("For class zooshop: constructor with one value pet\n");
 		 shop.output_shopANDpets();
 		 Console.WriteLine("After feeding\n");
 		 shop.feeding();
@@ -313,7 +332,19 @@ namespace lab6App
 		pet1[i].input();
 		sum=pet1[i].add_price(sum);
 		 }
-		Zooshop shop1 = new Zooshop(col,0,0,pet1);
+		Zooshop shop1 = new Zooshop(col,0,0,pet1);//constructor with arrays value of pet
+		Console.WriteLine("For class zooshop: constructor with array\n");
+		shop1.output_shopANDpets();
+		
+		//array from constructor with one value
+		 Pets[] pet92 = new Pets[2];
+		 for(int i=0; i<2; i++)
+		 {
+			 pet92[i]=new Pets("bobik");
+		 }
+		Console.WriteLine("array : constructor with one value\n");
+		Zooshop for_array=new Zooshop(2,0,0,pet92);
+		for_array.output_shopANDpets();
 		//8 lab
 		Zooshop shop8 = new Zooshop(1,0,0,pet);
 		Zooshop.compare(shop1,shop8);
