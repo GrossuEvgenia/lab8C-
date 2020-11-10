@@ -2,6 +2,23 @@ using System;
  
 namespace lab6App
 {
+	//for create custom expextion handling
+class PetsException : Exception //Используем наследование
+{
+	
+    private int errorCode;
+    
+    public PetsException(string error_message, int error_code)
+        : base(error_message) //call constructor of base class
+    {
+        errorCode = error_code;
+    }
+ 
+    
+    public int ErrorCode { get { return errorCode; } }
+ 
+    
+}
 	class Pets
 	{	private string name;
 		private int age;
@@ -15,14 +32,17 @@ namespace lab6App
 			price=0;
 		}
 		public Pets(string name)
-		{
+		{ 
 			this.name=name;
 			age=0;
 			wheit=0;
 			price=0;
 		}
 		public Pets(string name, int age, int wheit, double price)
-		{
+		{if(age<0||wheit<0||price<0)
+			{
+				throw new PetsException("Negative value", 20);
+			}
 			this.name=name;
 			this.age=age;
 			this.wheit=wheit;
@@ -85,13 +105,41 @@ namespace lab6App
 		{
 			Console.WriteLine("Enter pet's name:\n");
 			name=Console.ReadLine();
-			Console.WriteLine("Enter pet's age\n");
+			       try                                     
+            {
+            Console.WriteLine("Enter pet's age\n");
 			age=Int32.Parse(Console.ReadLine());
-			Console.WriteLine("Enter pet's wheit\n");
+            }
+            catch(FormatException)
+			{			
+               Console.WriteLine("NOT DIGIT!!! - press any key");       
+               Console.ReadKey();
+                return;
+            }
+			       try                                     
+            {
+            Console.WriteLine("Enter pet's wheit\n");
 			wheit=Int32.Parse(Console.ReadLine());
-			Console.WriteLine("Enter pet's price\n");
+            }
+            catch(FormatException)   
+			{			
+               Console.WriteLine("NOT DIGIT!!! - press any key");       
+               Console.ReadKey();
+                return;
+            }
+                   try                                     
+            {
+            Console.WriteLine("Enter pet's price\n");
 			price=Convert.ToDouble(Console.ReadLine());			
-		}
+		
+            }
+            catch(FormatException) 
+			{			
+               Console.WriteLine("NOT DIGIT!!! - press any key");       
+               Console.ReadKey();
+                return;
+            }
+			}
 		public void output_pets()
 		{
 			Console.WriteLine("Pet's name - {0}, age - {1}, wheit - {2}, price - {3}\n", name, age, wheit, price);
@@ -298,6 +346,22 @@ namespace lab6App
 		 
 		 pet.input();
 		 pet.add_price(sum);
+		 
+		 
+		Pets pet10= new Pets();
+	
+		 //for 10 lab
+		 
+		 try
+{ pet10= new Pets("kotik10", -2,0,0);
+}
+catch (PetsException ex)
+{
+    //custom 
+    Console.WriteLine("\nERROR: " + ex.Message + "; error's code: " + ex.ErrorCode);
+}
+pet10.output_pets();
+
 		 Zooshop shop = new Zooshop(1,0,0,pet);//constructor with one value pet
 		 Console.WriteLine("For class zooshop: constructor with one value pet\n");
 		 shop.output_shopANDpets();
@@ -333,6 +397,7 @@ namespace lab6App
 		sum=pet1[i].add_price(sum);
 		 }
 		Zooshop shop1 = new Zooshop(col,0,0,pet1);//constructor with arrays value of pet
+		
 		Console.WriteLine("For class zooshop: constructor with array\n");
 		shop1.output_shopANDpets();
 		
